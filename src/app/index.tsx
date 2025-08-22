@@ -11,7 +11,7 @@ export default function Index() {
   const [user, onChangeUser] = React.useState("");
 
   return (
-    <View className="flex justify-between flex-col h-screen px-6 py-4 bg-[#231F20]">
+    <View className="flex justify-between flex-col h-screen px-6 bg-[#231F20]">
       <View className="w-full flex items-center">
         <Image
         style={{ width: 225 }}
