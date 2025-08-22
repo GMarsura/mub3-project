@@ -17,7 +17,9 @@ export default function Hub() {
           <Text className="text-base font-bold text-black">Conceitos Importantes</Text>
         </View>
         
-        <ButtonQuiz text="Ir pro Quiz" href="./quiz" />
+        <ButtonQuiz isNormal={true} text="1" href="./quiz" />
+        <ButtonQuiz isNormal={false} text="2" href="./quiz" />
+        <ButtonQuiz isNormal={true} text="3" href="./quiz" />
       </View>
 
       <View className="flex flex-row justify-around items-center mx-6 p-6 bg-[#333333] rounded-t-2xl">
