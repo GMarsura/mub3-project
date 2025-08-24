@@ -3,14 +3,14 @@ import { Pressable, Text, View } from "react-native";
 
 import { FaStar } from "react-icons/fa";
 
-type ButtonQuizProps = {
+type ButtonHubProps = {
   text: string;
   href: RelativePathString;
   isNormal?: boolean; // True -> cores normais | False -> cores invertidas
   typeColor?: number,
 };
 
-export default function ButtonQuiz({ text, href, isNormal = true, typeColor = 0 }: ButtonQuizProps) {
+export default function ButtonHub({ text, href, isNormal = true, typeColor = 0 }: ButtonHubProps) {
   const typeColorButton = [
     { // Azul MUB3
       bgColor: "#81D2E2",
