@@ -1,4 +1,3 @@
-import { useRouter } from "expo-router";
 import React from "react";
 import { Image, Text, TextInput, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -6,7 +5,6 @@ import Pagination from "../components/Pagination/Pagination";
 import Button from "../components/Button/Button";
 
 export default function Index() {
-  const router = useRouter();
 
   const [user, onChangeUser] = React.useState("");
 
