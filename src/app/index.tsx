@@ -3,11 +3,43 @@ import { Image, Text, TextInput, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import Pagination from "../components/Pagination/Pagination";
 import Button from "../components/Button/Button";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 export default function Index() {
 
-  const [user, onChangeUser] = React.useState("");
 
+  const [user, onChangeUser] = useState("");
+
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const savedUser = await AsyncStorage.getItem("nome");
+        if (savedUser) {
+          onChangeUser(savedUser);
+        }
+      } catch (e) {
+        console.warn("Erro ao carregar nome:", e);
+      }
+    };
+    loadUser();
+  }, []);
+
+  
+  useEffect(() => {
+    const saveUser = async () => {
+      try {
+        await AsyncStorage.setItem("nome", user);
+      } catch (e) {
+        console.warn("Erro ao salvar nome:", e);
+      }
+    };
+
+    if (user) {
+      saveUser();
+    }
+  }, [user]);
+  
   return (
     <View className="flex justify-between flex-col h-screen px-6 bg-[#231F20]">
       <View className="w-full flex items-center">

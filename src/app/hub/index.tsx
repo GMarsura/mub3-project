@@ -6,36 +6,48 @@ import { FaHome, FaInfoCircle  } from "react-icons/fa";
 import { FaUser } from "react-icons/fa6";
 import ButtonHub from "@/src/components/ButtonHub/ButtonHub";
 import SectionHeader from "@/src/components/SectionHeader/SectionHeader";
+import { questionsBySession } from '../../questions/questions';
 
 export default function Hub() {
+
+  const backgrounds = [`#54e8dc`, `#8091ff`, `#81D2E2`];
+
+  // Função para pegar cor aleatória
+  const getRandomBackground = () => backgrounds[Math.floor(Math.random() * backgrounds.length)];
+
   return (
     <View className="flex flex-col h-screen bg-[#231F20]">
       <Header />
 
       <View className="w-full h-[calc(100%-148px)] flex justify-between items-center flex-col px-6">
 
-        <ScrollView className="w-full flex items-center" stickyHeaderIndices={[0, 5, 10]}>
+        <ScrollView className="w-full flex items-center">
+          {questionsBySession.map((session, sessionIndex) => {
+            // Pegando níveis únicos
+            const uniqueLevels = [...new Set(session.questions.map(q => q.level))];
 
-          <SectionHeader title="Seção 1, Level 1" subtitle="Conceitos Importantes" />
+            const bgColor = getRandomBackground();
 
-          <ButtonHub isNormal={true} text="1" href="./quiz" />
-          <ButtonHub isNormal={false} text="2" href="./quiz" />
-          <ButtonHub isNormal={true} text="3" href="./quiz" />
-          <ButtonHub isNormal={false} text="4" href="./quiz" />
-          
-          <SectionHeader title="Seção 1, Level 2" subtitle="Conceitos Importantes" bgColor="#54e8dc" borderColor="#25a197" />
+            return (
+              <View key={sessionIndex} className="w-full items-center mb-6">
+                  <SectionHeader 
+                    title={`Seção ${sessionIndex + 1}, Level ${uniqueLevels[0]}`} 
+                    subtitle={session.session} 
+                    bgColor={bgColor} 
+                  />
 
-          <ButtonHub isNormal={false} text="1" href="./quiz" typeColor={1} />
-          <ButtonHub isNormal={true} text="2" href="./quiz" typeColor={1} />
-          <ButtonHub isNormal={false} text="3" href="./quiz" typeColor={1} />
-          <ButtonHub isNormal={true} text="4" href="./quiz" typeColor={1} />
-
-          <SectionHeader title="Seção 1, Level 3" subtitle="Conceitos Importantes" bgColor="#8091ff" borderColor="#5665c4" />
-
-          <ButtonHub isNormal={true} text="1" href="./quiz" typeColor={2} />
-          <ButtonHub isNormal={false} text="2" href="./quiz" typeColor={2} />
-          <ButtonHub isNormal={true} text="3" href="./quiz" typeColor={2} />
-          <ButtonHub isNormal={false} text="4" href="./quiz" typeColor={2} />
+                  {uniqueLevels.map((level, levelIndex) => (
+                    <ButtonHub 
+                      key={levelIndex}
+                      isNormal={levelIndex % 2 === 0}
+                      text={`${level}`}
+                      href="./quiz"
+                      sessionId={`${sessionIndex + 1}`} // Aqui atribuímos o ID da sessão
+                    />
+                  ))}
+                </View>
+            )
+          })}
         </ScrollView>
       </View>
 

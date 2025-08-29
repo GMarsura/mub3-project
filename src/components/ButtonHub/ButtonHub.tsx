@@ -1,50 +1,45 @@
 import { RelativePathString, router } from "expo-router";
 import { Pressable, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { FaStar } from "react-icons/fa";
 
 type ButtonHubProps = {
   text: string;
   href: RelativePathString;
+  sessionId: number; // ADICIONADO
   isNormal?: boolean; // True -> cores normais | False -> cores invertidas
-  typeColor?: number,
+  typeColor?: number;
 };
 
-export default function ButtonHub({ text, href, isNormal = true, typeColor = 0 }: ButtonHubProps) {
+export default function ButtonHub({ text, href, sessionId, isNormal = true, typeColor = 0 }: ButtonHubProps) {
   const typeColorButton = [
-    { // Azul MUB3
-      bgColor: "#81D2E2",
-      starColor: "#231F20",
-      borderColor: "#51b5c9",
-    },
-    { // Ciano
-      bgColor: "#54e8dc",
-      starColor: "#231F20",
-      borderColor: "#25a197",
-    },
-    { // Roxo
-      bgColor: "#8091ff",
-      starColor: "#231F20",
-      borderColor: "#5665c4",
-    },
-    // { // Adicione mais tipos de cores aqui...
-    //   bgColor: "#",
-    //   starColor: "#",
-    //   borderColor: "#",
-    // }
+    { bgColor: "#81D2E2", starColor: "#231F20", borderColor: "#51b5c9" },
+    { bgColor: "#54e8dc", starColor: "#231F20", borderColor: "#25a197" },
+    { bgColor: "#8091ff", starColor: "#231F20", borderColor: "#5665c4" },
   ];
 
-  let bgColor = typeColorButton[typeColor].bgColor;
-  let starColor = typeColorButton[typeColor].starColor;
-  let borderColor = typeColorButton[typeColor].borderColor;
+  const { bgColor, starColor, borderColor } = typeColorButton[typeColor];
+
+  const handlePress = async () => {
+    // salva sessionId e text no AsyncStorage
+    await AsyncStorage.setItem(
+      "session",sessionId
+    );
+    await AsyncStorage.setItem(
+      "level",text
+    );
+
+
+    // navega para a tela
+    router.navigate(href);
+  };
 
   return (
     <View className="flex justify-center items-center my-4">
       <Pressable
-        onPress={() => router.navigate(href)}
-        style={{ 
-          backgroundColor: !isNormal ? starColor : bgColor, 
-          borderColor: !isNormal ? bgColor : borderColor }}
+        onPress={handlePress}
+        style={{ backgroundColor: !isNormal ? starColor : bgColor, borderColor: !isNormal ? bgColor : borderColor }}
         className="w-[100px] h-[100px] flex justify-center items-center rounded-full px-6 py-3 border-b-8 border-4"
       >
         <FaStar size={32} style={{ color: !isNormal ? bgColor : starColor, transform: "translate(0px, -2px)" }} />
